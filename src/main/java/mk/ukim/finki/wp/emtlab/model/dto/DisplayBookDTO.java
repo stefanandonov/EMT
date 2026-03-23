@@ -1,8 +1,10 @@
 package mk.ukim.finki.wp.emtlab.model.dto;
 
+import mk.ukim.finki.wp.emtlab.model.domain.Author;
 import mk.ukim.finki.wp.emtlab.model.domain.BaseEntity;
 import mk.ukim.finki.wp.emtlab.model.domain.Book;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public record DisplayBookDTO(
@@ -12,6 +14,8 @@ public record DisplayBookDTO(
         Long stateId,
         Integer availableCopies
 ) {
+
+
     public static DisplayBookDTO from(Book book) {
         return new DisplayBookDTO(
                 book.getName(),
@@ -28,4 +32,7 @@ public record DisplayBookDTO(
                 .map(DisplayBookDTO::from)
                 .toList();
     }
+
+
+
 }

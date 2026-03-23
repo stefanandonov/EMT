@@ -35,6 +35,7 @@ public class Book extends BaseAuditableEntity {
     @Column
     private Integer availableCopies;
 
+
     public Book(String name, Category category, List<Author> authors, State state, Integer availableCopies) {
         this.name = name;
         this.category = category;

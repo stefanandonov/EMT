@@ -11,6 +11,9 @@ import mk.ukim.finki.wp.emtlab.repository.StateRepository;
 import mk.ukim.finki.wp.emtlab.service.application.BookApplicationService;
 import mk.ukim.finki.wp.emtlab.service.domain.AuthorService;
 import mk.ukim.finki.wp.emtlab.service.domain.BookService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -60,7 +63,7 @@ public class BookApplicationServiceImpl implements BookApplicationService {
         List<Author> authors = authorService.findAllByIds(createBookDTO.authorIds());
         State state = stateRepository.findById(createBookDTO.stateId())
                 .orElseThrow(() -> new IllegalStateException("Didnt find state with id: " + createBookDTO.stateId()));
-        return bookService.update(id, createBookDTO.toBook(category,authors,state)).map(DisplayBookDTO::from);
+        return bookService.update(id, createBookDTO.toBook(category, authors, state)).map(DisplayBookDTO::from);
     }
 
     @Override
@@ -71,5 +74,18 @@ public class BookApplicationServiceImpl implements BookApplicationService {
     @Override
     public Optional<DisplayBookDTO> rent(Long bookId) {
         return bookService.rent(bookId).map(DisplayBookDTO::from);
+    }
+
+    @Override
+    public Optional<DisplayBookDTO> returnBook(Long bookId) {
+        return bookService.returnBook(bookId).map(DisplayBookDTO::from);
+    }
+
+    @Override
+    public Page<DisplayBookDTO> findAll(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+
+        return bookService.findAll(pageable)
+                .map(DisplayBookDTO::from);
     }
 }
